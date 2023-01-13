@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v2")
 public class UserController {
 
     IUserService iUserService;
@@ -24,7 +24,7 @@ public class UserController {
         this.iUserService= userService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody User user){
         return new ResponseEntity<>(iUserService.addUser(user), HttpStatus.CREATED);
     }

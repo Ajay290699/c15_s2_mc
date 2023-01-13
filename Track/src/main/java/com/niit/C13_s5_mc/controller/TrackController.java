@@ -2,25 +2,33 @@ package com.niit.C13_s5_mc.controller;
 
 
 import com.niit.C13_s5_mc.domain.Track;
+import com.niit.C13_s5_mc.domain.User;
 import com.niit.C13_s5_mc.exception.TrackAlreadyExistException;
 import com.niit.C13_s5_mc.exception.TrackNotFoundException;
 import com.niit.C13_s5_mc.service.ITrackService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v2")
 public class TrackController {
 
     ITrackService trackService;
 
+    @Autowired
     public TrackController(ITrackService trackService) {
         this.trackService = trackService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> saveUser(@RequestBody User user) {
+        return new ResponseEntity<>(trackService.addUser(user), HttpStatus.CREATED);
+    }
+
     @PostMapping("/track")
-    public ResponseEntity<?> addTrack(@RequestBody Track track){
+    public ResponseEntity<?> addTrack(@RequestBody Track track) {
         try {
             return new ResponseEntity<>(trackService.addTrack(track), HttpStatus.OK);
         } catch (TrackAlreadyExistException e) {
